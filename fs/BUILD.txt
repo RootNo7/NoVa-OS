@@ -1,0 +1,7 @@
+Build under WSL:
+
+./scripts/install-deps.sh
+./build.sh
+./run.sh
+
+QEMU is the reference execution environment for this first-build hardware profile.

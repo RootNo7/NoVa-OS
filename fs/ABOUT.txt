@@ -1,0 +1,11 @@
+Architecture
+
+Bootloader -> x86_64 kernel -> drivers/core services -> syscall boundary -> ring-3 applications.
+
+Security baseline:
+- kernel/user privilege split
+- identity-mapped supervisor kernel memory
+- fine-grained user pages
+- validated syscall pointers
+- user UID 1000
+- privileged reboot request denied

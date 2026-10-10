@@ -1,0 +1,4 @@
+a0128d1546e4cd53e00a562e20d212e96b2850bb078532a886cb2714e1e2643e  /mnt/data/nova-os-first-build/NOVA-first-build.img
+562debb46dc3f3684f53427bad14db3671c8094030c16b53392f3e9104ae40e1  /mnt/data/nova-os-first-build/build/kernel.bin
+9fbe6b87c1c62c39ecfc507915d5f75113b0248350f237de55a57590057aa6db  /mnt/data/nova-os-first-build/build/shell.bin
+e20c76a223bc1c796a9e09aa919f3242672cc1f41c1604e6c447752e59ec3dba  /mnt/data/nova-os-first-build/build/paint.bin
