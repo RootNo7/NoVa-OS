@@ -1,0 +1,23 @@
+# Generated build output
+/build/
+
+# Compiled object files
+*.o
+*.obj
+
+# Debug and diagnostic logs
+*.log
+*.dump
+*.core
+
+# Temporary and backup files
+*.tmp
+*.temp
+*~
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Local editor settings (uncomment if you don't share these)
+/# .vscode/
