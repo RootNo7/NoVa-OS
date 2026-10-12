@@ -35,8 +35,21 @@ void paging_init(void) {
 }
 
 int user_ptr_ok(uint64_t ptr, size_t len) {
+    /* Reject pointers outside the user window and ranges that wrap or escape it. */
     if (ptr < USER_BASE || ptr >= USER_LIMIT) return 0;
     if (len > (size_t)(USER_LIMIT - ptr)) return 0;
+
+    /* The user window contains holes: only image pages and the stack are mapped.
+       Validate every touched page before the kernel dereferences user memory. */
+    uint64_t last = ptr;
+    if (len != 0) last = ptr + (uint64_t)len - 1;
+    size_t first_page = (size_t)((ptr - USER_BASE) / 4096);
+    size_t last_page = (size_t)((last - USER_BASE) / 4096);
+    for (size_t page = first_page; page <= last_page; ++page) {
+        if (page >= 512) return 0;
+        /* Present + user-accessible; reject unmapped guard/gap pages. */
+        if ((user_pt[page] & 0x005ULL) != 0x005ULL) return 0;
+    }
     return 1;
 }
 

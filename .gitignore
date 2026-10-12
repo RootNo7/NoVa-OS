@@ -19,5 +19,10 @@
 .DS_Store
 Thumbs.db
 
+SECURITY-AUDIT.md
+security-audit.patch
+apply-fixes.sh
+APPLY-INSTRUCTIONS.txt
+
 # Local editor settings (uncomment if you don't share these)
 /# .vscode/

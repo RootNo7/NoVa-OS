@@ -169,16 +169,22 @@ void interrupt_dispatch(int_frame_t *f) {
     } else if (vector == 128) {
         syscall_dispatch(f);
     } else if (vector < 32) {
-        if (vector == 14 && (f->cs & 3) == 3) {
-            serial_puts("[NOVA] user page fault; terminating current image\r\n");
-        } else {
-            serial_puts("[NOVA] CPU exception vector "); serial_dec(vector); serial_puts("\r\n");
-        }
-        f->rax = (uint64_t)-1;
         if ((f->cs & 3) == 3) {
-            // Return to the immutable shell entry. The shell can report that the child failed.
+            /* Recover from a user exception using a freshly loaded shell image.
+               Reset both instruction and stack pointers; merely changing RIP
+               would resume with the faulting application's stale stack/state. */
+            serial_puts("[NOVA] user exception vector ");
+            serial_dec(vector);
+            serial_puts("; restarting shell\r\n");
+            load_user_image(_binary_shell_bin_start,
+                (size_t)(_binary_shell_bin_end - _binary_shell_bin_start));
             f->rip = USER_BASE;
+            f->rsp = USER_STACK + 4096;
+            f->rax = (uint64_t)-1;
         } else {
+            serial_puts("[NOVA] kernel exception vector ");
+            serial_dec(vector);
+            serial_puts("\r\n");
             panic("kernel exception");
         }
     }

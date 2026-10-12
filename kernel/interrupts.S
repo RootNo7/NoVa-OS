@@ -13,8 +13,12 @@ isr\n:
 .global isr\n
 .type isr\n,@function
 isr\n:
+    /* x86 pushes an error code before RIP for these exceptions. Remove it
+       so interrupt_dispatch receives the same int_frame_t layout as all
+       other vectors. The dispatcher does not currently consume error codes. */
+    addq $8, %rsp
     pushq $\n
-    jmp isr_common_err
+    jmp isr_common_noerr
 .endm
 
 isr_common_noerr:
